@@ -5,6 +5,7 @@ const cookieParser=require("cookie-parser")
 const connectToDB=require("./config/db")
 const authRoutes=require("./routes/authRoutes")
 const taskRoutes=require("./routes/taskRoutes")
+const noteRoutes=require("./routes/noteRoutes");
 const app=express();
 app.use(express.json());
 app.use(cors());
@@ -12,6 +13,7 @@ app.use(cookieParser());
 connectToDB();
 app.use("/api/auth",authRoutes)
 app.use("/api/tasks",taskRoutes)
+app.use("/api/note",noteRoutes);
 
 const PORT=process.env.PORT  || 3000;
 
