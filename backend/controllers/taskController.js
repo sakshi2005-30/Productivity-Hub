@@ -2,7 +2,7 @@ const Task = require("../models/Task");
 
 const createTask = async (req, res) => {
   try {
-    const {title,description}=req.body;
+    const {title,description,completed}=req.body;
 
     if(!title || !description){
         return res.status(400).json({
@@ -12,6 +12,7 @@ const createTask = async (req, res) => {
     const task=await Task.create({
         title,
         description,
+        completed,
         userId:req.user
     })
     res.status(201).json({
