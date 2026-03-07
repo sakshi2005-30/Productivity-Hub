@@ -9,7 +9,7 @@ router.post("/login",loginUser);
 router.get("/logout",logout)
 router.get("/me",protect,async(req,res)=>{
     res.status(200).json({
-        message:"I got the user"
+       user:req.user
     })
 })
 module.exports=router;
