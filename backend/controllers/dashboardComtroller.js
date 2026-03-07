@@ -38,4 +38,31 @@ const sessionStats=async(req,res)=>{
          res.status(500).json({ message: "Server error" });
     }
 }
-module.exports={taskStats,sessionStats};
+const weeklyStudyAnalytics=async(req,res)=>{
+    try{
+        const stats=await Session.aggregate([
+            {
+                $group:{
+                    _id:{$dayOfWeek:"$createdAt"},
+                    totalMinutes:{$sum:"$duration"}
+                }
+            },
+            {
+                $sort:{_id:1}
+            }
+        ]);
+        const days=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+        const result=stats.map((item)=>({
+            day:days[item._id-1],
+            minutes:item.totalMinutes
+
+        }))
+        res.json(result);
+    }
+    catch(error){
+        console.error("Weekly analytics error:", error);
+        res.status(500).json({ message: "Server error" });
+
+    }
+}
+module.exports={taskStats,sessionStats,weeklyStudyAnalytics};
